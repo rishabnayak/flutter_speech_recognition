@@ -150,11 +150,13 @@ public class SwiftSpeechRecognitionPlugin: NSObject, FlutterPlugin, SFSpeechReco
     }
 
     let recognitionFormat = inputNode.outputFormat(forBus: 0)
-    inputNode.installTap(onBus: 0, bufferSize: 1024, format: recognitionFormat) {
-      (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
-      self.recognitionRequest?.append(buffer)
+    if recognitionFormat.sampleRate > 0 {
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recognitionFormat) {
+            (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
+            self.recognitionRequest?.append(buffer)
+        }
     }
-
+    
     audioEngine.prepare()
     try audioEngine.start()
 
