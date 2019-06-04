@@ -1,4 +1,4 @@
-package com.example.flutter_speech_recognition;
+package com.flutter.speech_recognition;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;

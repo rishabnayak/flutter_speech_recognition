@@ -1,13 +1,8 @@
+library speech_recognition;
+
 import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-class FlutterSpeechRecognition {
-  static const MethodChannel _channel =
-      const MethodChannel('flutter_speech_recognition');
-
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }
-}
+part 'src/speech_recognition.dart';
+part 'src/voice_controller.dart';
