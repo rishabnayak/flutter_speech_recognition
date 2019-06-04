@@ -1,18 +1,20 @@
-group 'bz.rxla.flutter.speechrecognition'
+group 'com.flutter.speech_recognition'
 version '1.0-SNAPSHOT'
 
 buildscript {
     repositories {
+        google()
         jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
     }
 }
 
-allprojects {
+rootProject.allprojects {
     repositories {
+        google()
         jcenter()
     }
 }
@@ -20,12 +22,11 @@ allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 28
 
     defaultConfig {
+        minSdkVersion 16
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        minSdkVersion = 14
     }
     lintOptions {
         disable 'InvalidPackage'
