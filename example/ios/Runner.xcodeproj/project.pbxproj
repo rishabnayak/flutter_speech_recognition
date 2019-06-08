@@ -81,7 +81,6 @@
 				35EB5809326BD991F86F1A1F /* Pods-Runner.release.xcconfig */,
 				F4AC77AFB0A46B20166EDC51 /* Pods-Runner.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -185,6 +184,7 @@
 				TargetAttributes = {
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 5K43Q6FF67;
 					};
 				};
 			};
@@ -193,6 +193,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -243,7 +244,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh",
-				"${PODS_ROOT}/../.symlinks/flutter/ios-release/Flutter.framework",
+				"${PODS_ROOT}/../.symlinks/flutter/ios/Flutter.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -379,13 +380,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = S8QB4VV633;
+				DEVELOPMENT_TEAM = 5K43Q6FF67;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -393,6 +395,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterSpeechRecognitionExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "arm64 arm64e";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Profile;
@@ -505,12 +508,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = 5K43Q6FF67;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -518,6 +523,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterSpeechRecognitionExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "arm64 arm64e";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -528,12 +534,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = 5K43Q6FF67;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -541,6 +549,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterSpeechRecognitionExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "arm64 arm64e";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
