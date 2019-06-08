@@ -1,3 +1,7 @@
+## 2.0.3
+
+* Fixed stop()
+
 ## 2.0.2
 
 * Renamed controller

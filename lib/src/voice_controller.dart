@@ -15,7 +15,7 @@ class RecognitionController {
   Future<bool> isLangAvailable(String languageCode) async {
     if (!_isInitialized) {
       throw new Exception(
-          "isLangAvailable called on an uninitialized VoiceController");
+          "isLangAvailable called on an uninitialized RecognitionController");
     }
     final bool _isAvailable = await FlutterSpeechRecognition.channel
         .invokeMethod("SpeechRecognition#IsLangAvailable", <String, dynamic>{
@@ -27,7 +27,7 @@ class RecognitionController {
   Future<List<String>> getAvailableLanguages() async {
     if (!_isInitialized) {
       throw new Exception(
-          "getAvailableLanguages called on an uninitialized VoiceController");
+          "getAvailableLanguages called on an uninitialized RecognitionController");
     }
     final List<String> languages = <String>[];
     final List<dynamic> _reply = await FlutterSpeechRecognition.channel
@@ -41,7 +41,7 @@ class RecognitionController {
   Future<bool> setLanguage(String languageCode) async {
     if (!_isInitialized) {
       throw new Exception(
-          "setlanguage called on an uninitialized VoiceController");
+          "setlanguage called on an uninitialized RecognitionController");
     }
     final bool _reply = await FlutterSpeechRecognition.channel
         .invokeMethod("SpeechRecognition#SetLanguage", <String, dynamic>{
@@ -53,7 +53,7 @@ class RecognitionController {
   Stream<String> recognize() {
     if (!_isInitialized) {
       throw new Exception(
-          "Recognize called on an uninitialized VoiceController");
+          "Recognize called on an uninitialized RecognitionController");
     }
     const EventChannel textChannel = EventChannel('textChannel');
     textChannelSubscription = textChannel
@@ -64,9 +64,9 @@ class RecognitionController {
 
   Future<void> stop() async {
     if (!_isInitialized) {
-      throw new Exception("Stop called on an uninitialized VoiceController");
+      throw new Exception(
+          "Stop called on an uninitialized RecognitionController");
     }
     textChannelSubscription = null;
-    _isInitialized = false;
   }
 }
