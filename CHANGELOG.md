@@ -1,3 +1,7 @@
+## 2.0.5
+
+* No longer runs phantom calls on Android
+
 ## 2.0.4
 
 * Integration Fixes

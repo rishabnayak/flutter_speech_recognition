@@ -158,7 +158,7 @@ class FlutterSpeechRecognition implements SpeechRecognitionAgent, RecognitionLis
     @Override
     public void onError(int i) {
         try {
-            speechRecognizer.startListening(intent);
+            speechRecognizer.stopListening();
         } catch (Exception e) {
             e.printStackTrace();
         }
