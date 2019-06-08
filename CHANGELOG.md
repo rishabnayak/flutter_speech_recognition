@@ -1,3 +1,7 @@
+## 2.0.4
+
+* Integration Fixes
+
 ## 2.0.3
 
 * Fixed stop()

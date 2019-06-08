@@ -45,7 +45,7 @@ FlutterEventSink recognitionResult;
     NSError *error;
     audioEngine = [[AVAudioEngine alloc] init];
     audioSession = [AVAudioSession sharedInstance];
-    [audioSession setCategory:AVAudioSessionCategoryRecord mode:AVAudioSessionModeMeasurement options:(AVAudioSessionCategoryOptionDuckOthers|AVAudioSessionCategoryOptionAllowBluetooth) error:&error];
+    [audioSession setCategory:AVAudioSessionCategoryRecord mode:AVAudioSessionModeMeasurement options:AVAudioSessionCategoryOptionAllowBluetooth error:&error];
     if([SFSpeechRecognizer authorizationStatus] == !SFSpeechRecognizerAuthorizationStatusAuthorized){
         [SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus status){
             switch (status) {
@@ -106,51 +106,56 @@ FlutterEventSink recognitionResult;
 }
 
 - (FlutterError *)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)eventSink {
-    
-    if (recognitionTask) {
+    if(audioEngine.isRunning){
+        [audioEngine stop];
+        [recognitionRequest endAudio];
+        recognitionResult(FlutterEndOfEventStream);
+    } else {
+        NSError *error;
         [recognitionTask cancel];
-        recognitionTask = nil;
+        recognitionResult = eventSink;
+        [audioSession setActive:YES withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&error];
+        recognitionRequest = [[SFSpeechAudioBufferRecognitionRequest alloc] init];
+        inputNode = audioEngine.inputNode;
+        recognitionRequest.shouldReportPartialResults = YES;
+        recognitionTask = [speechRecognizer recognitionTaskWithRequest:recognitionRequest resultHandler:^(SFSpeechRecognitionResult * _Nullable result, NSError * _Nullable error) {
+            BOOL isFinal = NO;
+            timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerCalled) userInfo:nil repeats:NO];
+            if (result) {
+                timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(timerCalled) userInfo:nil repeats:NO];
+                recognitionResult(result.bestTranscription.formattedString);
+                isFinal = result.isFinal;
+            }
+            if (error != nil || isFinal) {
+                recognitionResult(FlutterEndOfEventStream);
+                [audioEngine stop];
+                [inputNode removeTapOnBus:0];
+                [recognitionRequest endAudio];
+                [audioSession setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&error];
+                recognitionRequest = nil;
+                recognitionTask = nil;
+            }
+        }];
+        
+        AVAudioFormat *recordingFormat = [inputNode outputFormatForBus:0];
+        [inputNode installTapOnBus:0 bufferSize:1024 format:recordingFormat block:^(AVAudioPCMBuffer * _Nonnull buffer, AVAudioTime * _Nonnull when) {
+            [recognitionRequest appendAudioPCMBuffer:buffer];
+        }];
+        
+        [audioEngine prepare];
+        [audioEngine startAndReturnError:&error];
     }
-    
-    recognitionResult = eventSink;
-    NSError *error;
-    [audioSession setActive:YES withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&error];
-    recognitionRequest = [[SFSpeechAudioBufferRecognitionRequest alloc] init];
-    inputNode = audioEngine.inputNode;
-    recognitionRequest.shouldReportPartialResults = YES;
-    recognitionTask = [speechRecognizer recognitionTaskWithRequest:recognitionRequest resultHandler:^(SFSpeechRecognitionResult * _Nullable result, NSError * _Nullable error) {
-        BOOL isFinal = NO;
-        timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerCalled) userInfo:nil repeats:NO];
-        if (result) {
-            timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(timerCalled) userInfo:nil repeats:NO];
-            recognitionResult(result.bestTranscription.formattedString);
-            isFinal = result.isFinal;
-        }
-        if (error != nil || isFinal) {
-            recognitionResult(FlutterEndOfEventStream);
-            [audioEngine stop];
-            [inputNode removeTapOnBus:0];
-            recognitionRequest = nil;
-            recognitionTask = nil;
-        }
-    }];
-    
-    AVAudioFormat *recordingFormat = [inputNode outputFormatForBus:0];
-    [inputNode installTapOnBus:0 bufferSize:1024 format:recordingFormat block:^(AVAudioPCMBuffer * _Nonnull buffer, AVAudioTime * _Nonnull when) {
-        [recognitionRequest appendAudioPCMBuffer:buffer];
-    }];
-    
-    [audioEngine prepare];
-    [audioEngine startAndReturnError:&error];
     return nil;
 }
 
 - (FlutterError *)onCancelWithArguments:(id)arguments {
     if(audioEngine.isRunning){
+        NSError *error;
         recognitionResult(FlutterEndOfEventStream);
         [audioEngine stop];
         [inputNode removeTapOnBus:0];
         [recognitionRequest endAudio];
+        [audioSession setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&error];
         recognitionRequest = nil;
         recognitionTask = nil;
         return nil;
@@ -160,9 +165,12 @@ FlutterEventSink recognitionResult;
 
 - (void)timerCalled
 {
+    NSError *error;
     recognitionResult(FlutterEndOfEventStream);
     [audioEngine stop];
     [inputNode removeTapOnBus:0];
+    [recognitionRequest endAudio];
+    [audioSession setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&error];
     recognitionRequest = nil;
     recognitionTask = nil;
 }
