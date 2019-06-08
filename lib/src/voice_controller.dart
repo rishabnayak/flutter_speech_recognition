@@ -1,7 +1,7 @@
 part of speech_recognition;
 
-class VoiceController {
-  VoiceController._();
+class RecognitionController {
+  RecognitionController._();
 
   bool _isInitialized = false;
   Stream<String> textChannelSubscription;

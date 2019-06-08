@@ -9,7 +9,7 @@ class FlutterSpeechRecognition {
 
   static final FlutterSpeechRecognition instance = FlutterSpeechRecognition._();
 
-  VoiceController voiceController() {
-    return VoiceController._();
+  RecognitionController voiceController() {
+    return RecognitionController._();
   }
 }

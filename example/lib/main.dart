@@ -15,7 +15,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    VoiceController controller =
+    RecognitionController controller =
         FlutterSpeechRecognition.instance.voiceController();
     controller.init().then((out) {
       controller.getAvailableLanguages().then((onValue) {
