@@ -45,7 +45,7 @@ FlutterEventSink recognitionResult;
     NSError *error;
     audioEngine = [[AVAudioEngine alloc] init];
     audioSession = [AVAudioSession sharedInstance];
-    [audioSession setCategory:AVAudioSessionCategoryRecord mode:AVAudioSessionModeMeasurement options:AVAudioSessionCategoryOptionDuckOthers error:&error];
+    [audioSession setCategory:AVAudioSessionCategoryRecord mode:AVAudioSessionModeMeasurement options:(AVAudioSessionCategoryOptionDuckOthers|AVAudioSessionCategoryOptionAllowBluetooth) error:&error];
     if([SFSpeechRecognizer authorizationStatus] == !SFSpeechRecognizerAuthorizationStatusAuthorized){
         [SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus status){
             switch (status) {
