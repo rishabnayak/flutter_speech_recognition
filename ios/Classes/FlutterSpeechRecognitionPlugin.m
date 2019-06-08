@@ -147,6 +147,7 @@ FlutterEventSink recognitionResult;
 
 - (FlutterError *)onCancelWithArguments:(id)arguments {
     if(audioEngine.isRunning){
+        recognitionResult(FlutterEndOfEventStream);
         [audioEngine stop];
         [inputNode removeTapOnBus:0];
         [recognitionRequest endAudio];
