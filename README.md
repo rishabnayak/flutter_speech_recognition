@@ -1,5 +1,7 @@
 # flutter_speech_recognition
 
+![Pub](https://img.shields.io/pub/v/flutter_speech_recognition.svg?color=orange)
+
 [WIP]
 
 ## Getting Started
